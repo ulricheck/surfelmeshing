@@ -5,6 +5,9 @@ project(libvis)
 # Make CMake find the Find<Package>.cmake files.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 
 ################################################################################
 # Dependencies and settings.
