@@ -23,9 +23,11 @@ class SurfelMeshingConan(ConanFile):
         "glew/2.1.0@camposs/stable",
         "cuda_dev_config/1.0@camposs/stable",
         "glog/0.3.5@bincrafters/stable",
+        "gflags/2.2.1@bincrafters/stable",
         "qt/5.12.2-r1@ircad/testing",
         "zlib/1.2.11@camposs/stable",
         "pcl/1.9.1@camposs/stable",
+        "gmp/6.1.2@bincrafters/stable",
     )
 
     options = {
@@ -33,6 +35,7 @@ class SurfelMeshingConan(ConanFile):
    }
     default_options = {
         "shared": False,
+        "glew:shared": True,
     }
 
     # all sources are deployed with the package

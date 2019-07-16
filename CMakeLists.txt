@@ -76,6 +76,9 @@ else()
   set(VULKAN_FOUND FALSE)
 endif()
 
+set(OpenGL_GL_PREFERENCE GLVND) # since CMake 3.11
+find_package(OpenGL REQUIRED)
+
 # Qt5 (external, required)
 # TODO: Qt should be an optional dependency.
 # Find includes in corresponding build directories.
@@ -249,8 +252,11 @@ add_library(libvis SHARED
 set(BASE_LIB_LIBRARIES
   ${Boost_LIBRARIES}
   ${GLEW_LIBRARIES}
-  GL
-  glog
+  ${CONAN_LIBS_GLEW}
+  ${CONAN_LIBS_GLOG}
+  ${CONAN_LIBS_GFLAGS}
+  ${CONAN_LIBS_GMP}
+  OpenGL::OpenGL
   Qt5::Widgets
   Qt5::X11Extras
   Qt5::OpenGL
