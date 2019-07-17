@@ -26,6 +26,7 @@ The library is work-in-progress and it is not recommended to use it for other pr
 The application and library code is licensed under the BSD license, but please
 also notice the licenses of the included or externally used third-party components.
 
+This repository was adatped by ulrich eck to build with conan dependencies from the CAMPAR repository TU Munich.
 
 ## Building ##
 
@@ -58,6 +59,26 @@ make -j SurfelMeshing
 
 
 ## Running ##
+
+### Notes for running conanified version ###
+
+- setup your conan remotes:
+  ```
+  conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+  conan remote add camposs "https://conan.campar.in.tum.de/api/conan/conan-camposs"
+  ```
+
+- create a symbolic link for Qt Plugins in build folder:
+  ```
+  ln -s lib/qt5/plugins plugins
+  ```
+
+- set LD_LIBRARY_PATH for runnin binaries in bin path:
+  ```
+  export LD_LIBRARY_PATH=../lib:$LD_LIBRARY_PATH
+  ```
+
+- Download a dataset and follow the instructions below
 
 The program supports datasets in the format of the
 [TUM RGB-D benchmark](https://vision.in.tum.de/data/datasets/rgbd-dataset)
