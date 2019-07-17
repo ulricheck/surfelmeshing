@@ -80,6 +80,8 @@ make -j SurfelMeshing
 
 - Download a dataset and follow the instructions below
 
+- if the program complains about not being able to read the files (calibration/groundtruth.txt) = check you locales .. e.g. fix it with export LC_NUMERIC=en_US.UTF-8
+
 The program supports datasets in the format of the
 [TUM RGB-D benchmark](https://vision.in.tum.de/data/datasets/rgbd-dataset)
 with two small additions:
