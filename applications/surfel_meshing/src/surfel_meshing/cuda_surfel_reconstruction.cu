@@ -825,7 +825,7 @@ __device__ void IntegrateOrConflictSurfel(
   if (measurement_depth <= 0) {
     integrate = false;
   }
-  if (!__any(integrate)) {
+  if (!__any_sync(0xFFFFFFFF, integrate)) {
     return;
   }
   
@@ -842,7 +842,7 @@ __device__ void IntegrateOrConflictSurfel(
     }
     integrate = false;
   }
-  if (!__any(integrate || conflicting)) {
+  if (!__any_sync(0xFFFFFFFF, integrate || conflicting)) {
     return;
   }
   
@@ -858,7 +858,7 @@ __device__ void IntegrateOrConflictSurfel(
     // Surfel is occluded.
     integrate = false;
   }
-  if (!__any(integrate || conflicting)) {
+  if (!__any_sync(0xFFFFFFFF, integrate || conflicting)) {
     return;
   }
   
@@ -878,7 +878,7 @@ __device__ void IntegrateOrConflictSurfel(
   // Handle conflicts.
   // Critical section. HACK: replace surfel x coordinate with NaN to signal locked state.
   __syncthreads();  // Not sure if necessary
-  while (__any(conflicting)) {
+  while (__any_sync(0xFFFFFFFF, conflicting)) {
     float assumed_x = surfels(kSurfelX, surfel_index);
     if (conflicting &&
         !::isnan(assumed_x) &&
@@ -931,7 +931,7 @@ __device__ void IntegrateOrConflictSurfel(
   }
   
   // Early exit if none of the threads in the warp needs to integrate data.
-  if (!__any(integrate)) {
+  if (!__any_sync(0xFFFFFFFF, integrate)) {
     return;
   }
   
@@ -952,7 +952,7 @@ __device__ void IntegrateOrConflictSurfel(
   if (dot_angle > kSurfelNormalToViewingDirThreshold) {
     integrate = false;
   }
-  if (!__any(integrate)) {
+  if (!__any_sync(0xFFFFFFFF, integrate)) {
     return;
   }
   
@@ -976,7 +976,7 @@ __device__ void IntegrateOrConflictSurfel(
     if (observation_radius_squared / surfel_radius_squared > kMaxObservationRadiusFactorForIntegration * kMaxObservationRadiusFactorForIntegration) {
       integrate = false;
     }
-    if (!__any(integrate)) {
+    if (!__any_sync(0xFFFFFFFF, integrate)) {
       return;
     }
   }
@@ -985,7 +985,7 @@ __device__ void IntegrateOrConflictSurfel(
   // Integrate.
   // Critical section. HACK: replace surfel x coordinate with NaN to signal locked state.
   __syncthreads();  // Not sure if necessary
-  while (__any(integrate)) {
+  while (__any_sync(0xFFFFFFFF, integrate)) {
     const float assumed_x = surfels(kSurfelX, surfel_index);
     if (integrate &&
         !::isnan(assumed_x) &&
@@ -1078,7 +1078,7 @@ __global__ void IntegrateMeasurementsCUDAKernel(
   if (!IsSurfelActiveForIntegration(surfel_index, surfels, frame_index, surfel_integration_active_window_size)) {
     integrate = false;
   }
-  if (!__any(integrate)) {
+  if (!__any_sync(0xFFFFFFFF, integrate)) {
     return;
   }
   
@@ -1092,7 +1092,7 @@ __global__ void IntegrateMeasurementsCUDAKernel(
     integrate = false;
   }
   // Early exit?
-  if (!__any(integrate)) {
+  if (!__any_sync(0xFFFFFFFF, integrate)) {
     return;
   }
   
@@ -1114,7 +1114,7 @@ __global__ void IntegrateMeasurementsCUDAKernel(
   }
   
   // Early exit?
-  if (!__any(integrate)) {
+  if (!__any_sync(0xFFFFFFFF, integrate)) {
     return;
   }
   
