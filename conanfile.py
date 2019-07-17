@@ -47,3 +47,13 @@ class SurfelMeshingConan(ConanFile):
         cmake.configure()
         cmake.build()
         cmake.install()
+
+
+    def imports(self):
+        self.copy(src="bin", pattern="*.dll", dst="./bin") # Copies all dll files from packages bin folder to my "bin" folder
+        self.copy(src="lib", pattern="*.dll", dst="./bin") # Copies all dll files from packages bin folder to my "bin" folder
+        self.copy(src="lib", pattern="*.dylib*", dst="./lib") # Copies all dylib files from packages lib folder to my "lib" folder
+        self.copy(src="lib", pattern="*.so*", dst="./lib") # Copies all so files from packages lib folder to my "lib" folder
+        self.copy(src="lib", pattern="*.a", dst="./lib") # Copies all static libraries from packages lib folder to my "lib" folder
+        self.copy(src="lib/qt5", pattern="*", dst="./lib/qt5", keep_path=True) # Copies all qt5 plugin libraries from packages lib folder to my "lib" folder
+        self.copy(src="bin", pattern="*", dst="./bin") # Copies all applications
